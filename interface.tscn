@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://booyulcb4o2oa"]
+
+[ext_resource type="Script" uid="uid://6r3y3dwfwxq0" path="res://TestImporter.cs" id="1_rh14k"]
+[ext_resource type="Texture2D" uid="uid://btdqlc5ogff0q" path="res://PegLegIcon256.png" id="2_kyn48"]
+
+[node name="Control" type="Control" node_paths=PackedStringArray("testResult")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rh14k")
+test = "PegLegAssets-v1.0.0-Win64.pck"
+test2 = "PegLegAssets-v1.0.1-Win64.pck"
+testAsset = "res://PegLegAssets/ExportedImages/Act_Encampment.png"
+testResult = NodePath("TextureRect")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 67.0
+offset_bottom = 36.0
+text = "Import"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 245.0
+offset_top = 110.0
+offset_right = 601.0
+offset_bottom = 366.0
+texture = ExtResource("2_kyn48")
+expand_mode = 1
+stretch_mode = 5
+
+[connection signal="pressed" from="Button" to="." method="Import"]
