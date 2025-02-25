@@ -1,5 +1,6 @@
 PegLegAssets/
 Builds/
+MakeReleaseBa.sh
 
 # Godot 4+ specific ignores
 .godot/
