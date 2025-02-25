@@ -38,7 +38,7 @@ jobs:
         uses: firebelley/godot-export@v6.0.0
         with:
           # Defining all the required inputs
-          godot_executable_download_url: https://github.com/godotengine/godot-builds/releases/download/${{ env.GODOT_VERSION }}-${{ env.GODOT_BUILD }}/Godot_v${{ env.GODOT_VERSION }}-${{ env.GODOT_BUILD }}_mono_linux.x86_64.zip
+          godot_executable_download_url: https://github.com/godotengine/godot-builds/releases/download/${{ env.GODOT_VERSION }}-${{ env.GODOT_BUILD }}/Godot_v${{ env.GODOT_VERSION }}-${{ env.GODOT_BUILD }}_mono_linux_x86_64.zip
           godot_export_templates_download_url: https://github.com/godotengine/godot-builds/releases/download/${{ env.GODOT_VERSION }}-${{ env.GODOT_BUILD }}/Godot_v${{ env.GODOT_VERSION }}-${{ env.GODOT_BUILD }}_mono_export_templates.tpz
           relative_project_path: ./
           presets_to_export: Major Package
