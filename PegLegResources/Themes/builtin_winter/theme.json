@@ -9,14 +9,14 @@
     "music":
     [
         [
-            "Winter_Ambient_Day_VAR_A_Loop.wav",
-            "Winter_Ambient_Day_VAR_B_Loop.wav",
-            "Winter_Ambient_Day_VAR_C_Loop.wav"
+            "Winter_Ambient_Day_VAR_A_Loop.ogg",
+            "Winter_Ambient_Day_VAR_B_Loop.ogg",
+            "Winter_Ambient_Day_VAR_C_Loop.ogg"
         ],
         [
-            "Winter_Ambient_NIght_VAR_A_Loop.wav",
-            "Winter_Ambient_NIght_VAR_B_Loop.wav",
-            "Winter_Ambient_NIght_VAR_C_Loop.wav"
+            "Winter_Ambient_NIght_VAR_A_Loop.ogg",
+            "Winter_Ambient_NIght_VAR_B_Loop.ogg",
+            "Winter_Ambient_NIght_VAR_C_Loop.ogg"
         ]
     ]
 }

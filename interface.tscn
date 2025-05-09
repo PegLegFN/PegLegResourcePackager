@@ -1,37 +1,223 @@
-[gd_scene load_steps=3 format=3 uid="uid://booyulcb4o2oa"]
+[gd_scene load_steps=8 format=3 uid="uid://booyulcb4o2oa"]
 
-[ext_resource type="Script" uid="uid://6r3y3dwfwxq0" path="res://TestImporter.cs" id="1_rh14k"]
+[ext_resource type="Texture2D" uid="uid://b4kmvt1igcs0a" path="res://FORT_Load_PiratesCove.png" id="1_rh14k"]
 [ext_resource type="Texture2D" uid="uid://btdqlc5ogff0q" path="res://PegLegIcon256.png" id="2_kyn48"]
+[ext_resource type="Script" uid="uid://bj5d6mmiijqnb" path="res://Packager.cs" id="2_oi7g3"]
+[ext_resource type="Script" uid="uid://6r3y3dwfwxq0" path="res://TestImporter.cs" id="3_4rbkc"]
+[ext_resource type="Shader" uid="uid://crgkqfoun16kq" path="res://Loading/FlipbookAnimation.gdshader" id="5_0noqu"]
+[ext_resource type="Texture2D" uid="uid://1mimvgeec2j8" path="res://Loading/PegLegLoadingWheelRenderSmall.png" id="6_pxv5b"]
 
-[node name="Control" type="Control" node_paths=PackedStringArray("testResult")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jllm8"]
+shader = ExtResource("5_0noqu")
+shader_parameter/ControlSize = Vector2(256, 256)
+shader_parameter/SliceAmount = Vector2(10, 10)
+shader_parameter/FPS = 30.0
+shader_parameter/CellCount = 0
+shader_parameter/Fit = false
+shader_parameter/Repeat = false
+shader_parameter/HorizontalMask = 0.0
+shader_parameter/VerticalMask = 0.0
+shader_parameter/Frame = -1
+
+[node name="Control" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_rh14k")
-test = "PegLegAssets-v1.0.0-Win64.pck"
-test2 = "PegLegAssets-v1.0.1-Win64.pck"
-testAsset = "res://PegLegAssets/ExportedImages/Act_Encampment.png"
-testResult = NodePath("TextureRect")
-
-[node name="Button" type="Button" parent="."]
-layout_mode = 1
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 67.0
-offset_bottom = 36.0
-text = "Import"
+metadata/_edit_horizontal_guides_ = [-32.0]
 
 [node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 245.0
-offset_top = 110.0
-offset_right = 601.0
-offset_bottom = 366.0
+self_modulate = Color(0.6, 0.6, 0.6, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_rh14k")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="."]
+self_modulate = Color(1, 0.4, 0, 1)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/outline_size = 1
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -68.0
+offset_right = 75.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" node_paths=PackedStringArray("versionInput", "latestError", "importer", "loadingIcon", "interactableArea")]
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("2_oi7g3")
+godotExePath = "C:/Users/Tomatech/AppData/Roaming/Godot/app_userdata/Godots/versions/Godot_v4_4_1-stable_mono_win64/Godot_v4.4.1-stable_mono_win64/Godot_v4.4.1-stable_mono_win64_console.exe"
+versionInput = NodePath("LineEdit")
+latestError = NodePath("../../Label")
+importer = NodePath("../ImageViewer")
+loadingIcon = NodePath("../../LoadingIcon")
+interactableArea = NodePath("..")
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "v1.0.1"
+placeholder_text = "v0.0.0b"
+alignment = 1
+
+[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Export Package"
+
+[node name="OptionButton" type="OptionButton" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+selected = 0
+item_count = 2
+popup/item_0/text = "latest"
+popup/item_0/id = 1
+popup/item_1/text = "v1.0.0"
+popup/item_1/id = 0
+
+[node name="Button2" type="Button" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Test Import"
+
+[node name="ImageViewer" type="MarginContainer" parent="HBoxContainer" node_paths=PackedStringArray("versionSelector", "testPath", "testResult", "testResult2", "viewerRegion")]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+script = ExtResource("3_4rbkc")
+versionSelector = NodePath("../VBoxContainer/OptionButton")
+testPath = NodePath("VBoxContainer/HBoxContainer/LineEdit")
+testResult = NodePath("VBoxContainer/PanelContainer/MarginContainer/TextureRect")
+testResult2 = NodePath("../../FSPreview/TextureRect")
+fallback = ExtResource("2_kyn48")
+viewerRegion = NodePath(".")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ImageViewer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/ImageViewer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/ImageViewer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+text = "GameAssets/ExportedImages/Act_Encampment.png"
+placeholder_text = "Search Image"
+
+[node name="Button" type="Button" parent="HBoxContainer/ImageViewer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+text = "O"
+
+[node name="FileDialog" type="FileDialog" parent="HBoxContainer/ImageViewer/VBoxContainer/HBoxContainer/Button"]
+title = "Open a File"
+transient_to_focused = true
+ok_button_text = "Open"
+file_mode = 0
+root_subfolder = "res://PegLegResources/"
+filters = PackedStringArray("*.png")
+use_native_dialog = true
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/ImageViewer/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/ImageViewer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ImageViewer/VBoxContainer/PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(400, 225)
+layout_mode = 2
 texture = ExtResource("2_kyn48")
 expand_mode = 1
 stretch_mode = 5
 
-[connection signal="pressed" from="Button" to="." method="Import"]
+[node name="TextureButton" type="TextureButton" parent="HBoxContainer/ImageViewer/VBoxContainer/PanelContainer/MarginContainer/TextureRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TabContainer" type="TabContainer" parent="HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+current_tab = 0
+
+[node name="JsonViewer" type="MarginContainer" parent="HBoxContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="LoadingIcon" type="TextureRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_jllm8")
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_pxv5b")
+expand_mode = 1
+
+[node name="FSPreview" type="TextureButton" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="FSPreview"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Button" to="HBoxContainer/VBoxContainer" method="ExportPackage"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Button2" to="HBoxContainer/ImageViewer" method="Import"]
+[connection signal="pressed" from="HBoxContainer/ImageViewer/VBoxContainer/HBoxContainer/Button" to="HBoxContainer/ImageViewer/VBoxContainer/HBoxContainer/Button/FileDialog" method="show"]
+[connection signal="file_selected" from="HBoxContainer/ImageViewer/VBoxContainer/HBoxContainer/Button/FileDialog" to="HBoxContainer/ImageViewer" method="SetFromFilePath"]
+[connection signal="pressed" from="HBoxContainer/ImageViewer/VBoxContainer/PanelContainer/MarginContainer/TextureRect/TextureButton" to="FSPreview" method="set_visible" binds= [true]]
+[connection signal="pressed" from="FSPreview" to="FSPreview" method="set_visible" binds= [false]]

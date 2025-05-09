@@ -12,7 +12,7 @@
                 "layers":
                 [
                     {
-                        "path" : "fortnite_onboarding_cave_music.wav",
+                        "path" : "fortnite_onboarding_cave_music.ogg",
                         "mixRate" : 48000
                     }
                 ]
@@ -21,7 +21,7 @@
                 "layers":
                 [
                     {
-                        "path" : "fortnite_homebase_music_loop.wav",
+                        "path" : "fortnite_homebase_music_loop.ogg",
                         "mixRate" : 48000
                     }
                 ]

@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="PegLegAssets"
+config/name="PegLegResourcePackager"
 config/version="1.0.0"
 run/main_scene="uid://booyulcb4o2oa"
 config/features=PackedStringArray("4.4", "C#")
@@ -18,8 +18,7 @@ config/icon="res://PegLegIcon256.png"
 
 [display]
 
-window/size/transparent=true
-window/per_pixel_transparency/allowed=true
+window/subwindows/embed_subwindows=false
 
 [dotnet]
 
@@ -28,4 +27,3 @@ project/assembly_name="PegLegAssets"
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-viewport/transparent_background=true

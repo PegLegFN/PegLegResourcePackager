@@ -11,9 +11,9 @@
     {
         "intros":
         [
-            "Fortnitemares_Lobby_Intro_01.wav",
-            "Fortnitemares_Lobby_Intro_02.wav"
+            "Fortnitemares_Lobby_Intro_01.ogg",
+            "Fortnitemares_Lobby_Intro_02.ogg"
         ],
-        "tracks":"Fortnitemares_Lobby_Music_01_Loop.wav"
+        "tracks":"Fortnitemares_Lobby_Music_01_Loop.ogg"
     }
 }
