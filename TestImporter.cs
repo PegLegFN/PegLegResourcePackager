@@ -19,7 +19,7 @@ public partial class TestImporter : Control
     public override void _Ready()
     {
         RefreshVersions();
-        versionRegex.Compile("^v(\\d+)\\.(\\d+)\\.(\\d+)([a-z_]*)$");
+        versionRegex.Compile(Packager.versionRegexArgs);
         testPath.TextSubmitted += _ => GetAsset();
     }
 
@@ -41,9 +41,12 @@ public partial class TestImporter : Control
         GetAsset();
     }
 
-    string GetPackageFromVersion(int major, int minor, int patch, string prereleaseMarker = null)
+    string GetPackageFromVersion(int major, int minor, int patch, string prereleaseType = null, int prereleaseNumber = 0)
     {
-        var folder = GetPckPath($"PLR-v{major}.{minor}.{patch}{prereleaseMarker}");
+        string prereleaseAddon = "";
+        if (prereleaseType is not null)
+            prereleaseAddon = $"-{prereleaseType}{(prereleaseNumber < 10 ? "0" : "")}{prereleaseNumber}";
+        var folder = GetPckPath($"PLR-v{major}.{minor}.{patch}{prereleaseAddon}");
         return folder+"/"+ DirAccess.GetFilesAt(folder)[0];
     }
 

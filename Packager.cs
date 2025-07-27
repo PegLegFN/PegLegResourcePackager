@@ -16,10 +16,12 @@ public partial class Packager : Control
     [Export]
     Control interactableArea;
 
+    public const string versionRegexArgs = "^v(\\d+)\\.(\\d+)\\.(\\d+)(?:-(a|b)(\\d\\d))?$";
+
     RegEx versionRegex= new();
     public override void _Ready()
     {
-        versionRegex.Compile("^v(\\d+)\\.(\\d+)\\.(\\d+)([a-z_]*)$");
+        versionRegex.Compile(versionRegexArgs);
     }
 
     bool isExporting = false;
@@ -43,6 +45,7 @@ public partial class Packager : Control
             int minor = 0;
             int patch = 0;
             string prereleaseMarker = null;
+            int prereleaseVersion = 0;
             if (versionRegex.Search(versionText) is RegExMatch standardMatch)
             {
                 var groups = standardMatch.Strings;
@@ -66,6 +69,19 @@ public partial class Packager : Control
                 }
                 if (!string.IsNullOrWhiteSpace(groups[4]))
                     prereleaseMarker = groups[4];
+                if (!string.IsNullOrWhiteSpace(groups[5]))
+                {
+                    prereleaseVersion = int.Parse(groups[5]);
+                    string targetString = prereleaseVersion.ToString();
+                    if (prereleaseVersion < 10)
+                        targetString = "0" + targetString;
+
+                    if (targetString != groups[5])
+                    {
+                        latestError.Text = $"Incorect number format in Prerelease version number ({targetString} != {groups[5]})";
+                        return;
+                    }
+                }
             }
             else
             {
@@ -73,7 +89,7 @@ public partial class Packager : Control
                 return;
             }
             //todo: export both Win64 and Android
-            await ExportForPlatform("Win64", major, minor, patch, prereleaseMarker);
+            await ExportForPlatform("Win64", major, minor, patch, prereleaseMarker, prereleaseVersion);
         }
         finally
         {
@@ -83,9 +99,16 @@ public partial class Packager : Control
         }
     }
 
-    public async Task ExportForPlatform(string platform, int major, int minor, int patch, string prereleaseMarker=null)
+    public async Task ExportForPlatform(string platform, int major, int minor, int patch, string prereleaseMarker, int prereleaseVersion)
     {
-        string exportingVersion = $"v{major}.{minor}.{patch}{prereleaseMarker}";
+        string exportingVersion = $"v{major}.{minor}.{patch}";
+        if (prereleaseMarker is not null)
+        {
+            string prereleaseVerText = prereleaseVersion.ToString();
+            if (prereleaseVersion < 10)
+                prereleaseVerText = "0" + prereleaseVerText;
+            exportingVersion += $"-{prereleaseMarker}{prereleaseVerText}";
+        }
         GD.Print("exporting: "+exportingVersion);
         string majorBasis = null;
         if (patch > 0 || minor > 0)
@@ -98,11 +121,11 @@ public partial class Packager : Control
 
         string packageRoot = ProjectSettings.GlobalizePath("res://Builds/Packages");
 
-        var exportPath = packageRoot;
-        exportPath += $"/PLR-{exportingVersion}";
-        if (!DirAccess.DirExistsAbsolute(exportPath))
-            DirAccess.MakeDirAbsolute(exportPath);
-        exportPath += $"/PegLegResources-{exportingVersion}-{platform}.pck";
+        var exportFolder = packageRoot;
+        exportFolder += $"/PLR-{exportingVersion}";
+        if (!DirAccess.DirExistsAbsolute(exportFolder))
+            DirAccess.MakeDirAbsolute(exportFolder);
+        var exportPath = $"{exportFolder}/PegLegResources-{exportingVersion}-{platform}.pck";
 
         string majorPath = null;
         if(majorBasis is not null)
@@ -142,6 +165,7 @@ public partial class Packager : Control
         });
 
         GD.Print("Export complete");
+        OS.ShellOpen(exportFolder);
 
         importer?.RefreshVersions();
     }

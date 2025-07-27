@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://btdqlc5ogff0q" path="res://PegLegIcon256.png" id="2_kyn48"]
 [ext_resource type="Script" uid="uid://bj5d6mmiijqnb" path="res://Packager.cs" id="2_oi7g3"]
 [ext_resource type="Script" uid="uid://6r3y3dwfwxq0" path="res://TestImporter.cs" id="3_4rbkc"]
-[ext_resource type="Shader" uid="uid://crgkqfoun16kq" path="res://Loading/FlipbookAnimation.gdshader" id="5_0noqu"]
-[ext_resource type="Texture2D" uid="uid://1mimvgeec2j8" path="res://Loading/PegLegLoadingWheelRenderSmall.png" id="6_pxv5b"]
+[ext_resource type="Shader" uid="uid://crgkqfoun16kq" path="res://PkgLoading/FlipbookAnimation.gdshader" id="5_0noqu"]
+[ext_resource type="Texture2D" uid="uid://1mimvgeec2j8" path="res://PkgLoading/PegLegLoadingWheelRenderSmall.png" id="6_pxv5b"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jllm8"]
 shader = ExtResource("5_0noqu")
@@ -82,8 +82,8 @@ interactableArea = NodePath("..")
 [node name="LineEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-text = "v1.0.1"
-placeholder_text = "v0.0.0b"
+text = "v1.0.0"
+placeholder_text = "v0.0.0-a01"
 alignment = 1
 
 [node name="Button" type="Button" parent="HBoxContainer/VBoxContainer"]
