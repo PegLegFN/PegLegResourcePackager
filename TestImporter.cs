@@ -15,11 +15,9 @@ public partial class TestImporter : Control
     [Export]
     Control viewerRegion;
 
-    RegEx versionRegex = new();
     public override void _Ready()
     {
         RefreshVersions();
-        versionRegex.Compile(Packager.versionRegexArgs);
         testPath.TextSubmitted += _ => GetAsset();
     }
 
@@ -41,12 +39,9 @@ public partial class TestImporter : Control
         GetAsset();
     }
 
-    string GetPackageFromVersion(int major, int minor, int patch, string prereleaseType = null, int prereleaseNumber = 0)
+    string GetPackageFromVersion(int major, int minor, int patch)
     {
-        string prereleaseAddon = "";
-        if (prereleaseType is not null)
-            prereleaseAddon = $"-{prereleaseType}{(prereleaseNumber < 10 ? "0" : "")}{prereleaseNumber}";
-        var folder = GetPckPath($"PLR-v{major}.{minor}.{patch}{prereleaseAddon}");
+        var folder = GetPckPath($"PLR-v{major}.{minor}.{patch}");
         return folder+"/"+ DirAccess.GetFilesAt(folder)[0];
     }
 
@@ -55,37 +50,32 @@ public partial class TestImporter : Control
         if (versionSelector.Selected < 0)
             return;
         var versionText = versionSelector.GetItemText(versionSelector.Selected);
-        int major = 0;
-        int minor = 0;
-        int patch = 0;
-        string prereleaseMarker = null;
-        if (versionRegex.Search(versionText) is RegExMatch standardMatch)
+        if (!Packager.ParseVersionText(
+                versionText,
+                out int major,
+                out int minor,
+                out int patch,
+                out string error
+            ))
         {
-            var groups = standardMatch.Strings;
-            major = int.Parse(groups[1]);
-            minor = int.Parse(groups[2]);
-            patch = int.Parse(groups[3]);
-            if (major.ToString() != groups[1])
-                return;
-            if (minor.ToString() != groups[2])
-                return;
-            if (patch.ToString() != groups[3])
-                return;
-            if (!string.IsNullOrWhiteSpace(groups[4]))
-                prereleaseMarker = groups[4];
+            GD.Print("Err: " + error);
+            return;
         }
-        
-        GD.Print("Loading "+ GetPackageFromVersion(major, 0, 0));
-        ProjectSettings.LoadResourcePack(GetPackageFromVersion(major, 0, 0));
+
+        var majorpck = GetPackageFromVersion(major, 0, 0);
+        GD.Print("Loading "+ majorpck);
+        ProjectSettings.LoadResourcePack(majorpck);
         if (minor > 0)
         {
-            GD.Print("Loading " + GetPackageFromVersion(major, minor, 0));
-            ProjectSettings.LoadResourcePack(GetPackageFromVersion(major, minor, 0));
+            var minorpck = GetPackageFromVersion(major, minor, 0);
+            GD.Print("Loading " + minorpck);
+            ProjectSettings.LoadResourcePack(minorpck);
         }
         if (patch > 0)
         {
-            GD.Print("Loading " + GetPackageFromVersion(major, minor, patch));
-            ProjectSettings.LoadResourcePack(GetPackageFromVersion(major, minor, patch));
+            var patchpck = GetPackageFromVersion(major, minor, patch);
+            GD.Print("Loading " + patchpck);
+            ProjectSettings.LoadResourcePack(patchpck);
         }
 
         viewerRegion.Visible = true;

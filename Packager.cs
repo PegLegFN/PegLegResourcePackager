@@ -8,6 +8,8 @@ public partial class Packager : Control
     [Export]
     LineEdit versionInput;
     [Export]
+    Control badFormatWarning;
+    [Export]
     Label latestError;
     [Export]
     TestImporter importer;
@@ -15,13 +17,32 @@ public partial class Packager : Control
     Control loadingIcon;
     [Export]
     Control interactableArea;
+    [Export(PropertyHint.GlobalDir)]
+    string quickExportTargetFolder;
 
-    public const string versionRegexArgs = "^v(\\d+)\\.(\\d+)\\.(\\d+)(?:-(a|b)(\\d\\d))?$";
+    // Eve is the vest developer ever
+    public const string versionRegexArgs = "^v(\\d+)\\.(\\d+)\\.(\\d+)$";
 
-    RegEx versionRegex= new();
+    static RegEx versionRegex = new();
     public override void _Ready()
     {
         versionRegex.Compile(versionRegexArgs);
+        versionInput.TextChanged += CheckInout;
+    }
+
+    void CheckInout(string input)
+    {
+        if (!ParseVersionText(
+            versionInput.Text,
+            out _, out _, out _,
+            out string error
+        ))
+        {
+            badFormatWarning.Visible = true;
+            badFormatWarning.TooltipText = error;
+            return;
+        }
+        badFormatWarning.Visible = false;
     }
 
     bool isExporting = false;
@@ -40,56 +61,19 @@ public partial class Packager : Control
                 latestError.Text = "Godot executable not provided";
                 return;
             }
-            var versionText = versionInput.Text;
-            int major = 0;
-            int minor = 0;
-            int patch = 0;
-            string prereleaseMarker = null;
-            int prereleaseVersion = 0;
-            if (versionRegex.Search(versionText) is RegExMatch standardMatch)
+            if(!ParseVersionText(
+                versionInput.Text,
+                out int major,
+                out int minor,
+                out int patch,
+                out string error
+            ))
             {
-                var groups = standardMatch.Strings;
-                major = int.Parse(groups[1]);
-                minor = int.Parse(groups[2]);
-                patch = int.Parse(groups[3]);
-                if (major.ToString() != groups[1])
-                {
-                    latestError.Text = $"Incorect number format in Major version number ({major} != {groups[1]})";
-                    return;
-                }
-                if (minor.ToString() != groups[2])
-                {
-                    latestError.Text = $"Incorect number format in Minor version number ({minor} != {groups[2]})";
-                    return;
-                }
-                if (patch.ToString() != groups[3])
-                {
-                    latestError.Text = $"Incorect number format in Patch version number ({patch} != {groups[3]})";
-                    return;
-                }
-                if (!string.IsNullOrWhiteSpace(groups[4]))
-                    prereleaseMarker = groups[4];
-                if (!string.IsNullOrWhiteSpace(groups[5]))
-                {
-                    prereleaseVersion = int.Parse(groups[5]);
-                    string targetString = prereleaseVersion.ToString();
-                    if (prereleaseVersion < 10)
-                        targetString = "0" + targetString;
-
-                    if (targetString != groups[5])
-                    {
-                        latestError.Text = $"Incorect number format in Prerelease version number ({targetString} != {groups[5]})";
-                        return;
-                    }
-                }
-            }
-            else
-            {
-                latestError.Text = "Failed to parse version label";
+                latestError.Text = error;
                 return;
             }
             //todo: export both Win64 and Android
-            await ExportForPlatform("Win64", major, minor, patch, prereleaseMarker, prereleaseVersion);
+            await ExportForPlatform(major, minor, patch);
         }
         finally
         {
@@ -99,16 +83,81 @@ public partial class Packager : Control
         }
     }
 
-    public async Task ExportForPlatform(string platform, int major, int minor, int patch, string prereleaseMarker, int prereleaseVersion)
+    public static bool ParseVersionText(
+        string versionText, 
+        out int major, 
+        out int minor,
+        out int patch,
+        out string error
+    )
+    {
+        major = 0;
+        minor = 0;
+        patch = 0;
+        error = null;
+        if (versionRegex.Search(versionText) is RegExMatch standardMatch)
+        {
+            var groups = standardMatch.Strings;
+            major = int.Parse(groups[1]);
+            minor = int.Parse(groups[2]);
+            patch = int.Parse(groups[3]);
+            if (major.ToString() != groups[1])
+            {
+                error = $"Incorect number format in Major version number ({major} != {groups[1]})";
+                return false;
+            }
+            if (minor.ToString() != groups[2])
+            {
+                error = $"Incorect number format in Minor version number ({minor} != {groups[2]})";
+                return false;
+            }
+            if (patch.ToString() != groups[3])
+            {
+                error = $"Incorect number format in Patch version number ({patch} != {groups[3]})";
+                return false;
+            }
+        }
+        else
+        {
+            error = "Failed to parse version label";
+            return false;
+        }
+        return true;
+    }
+
+    public async void QuickExport()
+    {
+        if (isExporting)
+            return;
+        try
+        {
+            isExporting = true;
+            loadingIcon.Visible = true;
+            interactableArea.Visible = false;
+
+            if (!FileAccess.FileExists(godotExePath))
+            {
+                latestError.Text = "Godot executable not provided";
+                return;
+            }
+
+            await ExportForPlatform(690, 0, 0, true);
+
+            string packageRoot = ProjectSettings.GlobalizePath("res://Builds/Packages");
+            var exportPath = $"{packageRoot}/PLR-v690.0.0/PegLegResources-v690.0.0.pck";
+            DirAccess.RenameAbsolute(exportPath, quickExportTargetFolder+"/PegLegResources.pck");
+        }
+        finally
+        {
+            isExporting = false;
+            loadingIcon.Visible = false;
+            interactableArea.Visible = true;
+        }
+    }
+
+    public async Task ExportForPlatform(int major, int minor, int patch, bool force = false)
     {
         string exportingVersion = $"v{major}.{minor}.{patch}";
-        if (prereleaseMarker is not null)
-        {
-            string prereleaseVerText = prereleaseVersion.ToString();
-            if (prereleaseVersion < 10)
-                prereleaseVerText = "0" + prereleaseVerText;
-            exportingVersion += $"-{prereleaseMarker}{prereleaseVerText}";
-        }
         GD.Print("exporting: "+exportingVersion);
         string majorBasis = null;
         if (patch > 0 || minor > 0)
@@ -125,14 +174,14 @@ public partial class Packager : Control
         exportFolder += $"/PLR-{exportingVersion}";
         if (!DirAccess.DirExistsAbsolute(exportFolder))
             DirAccess.MakeDirAbsolute(exportFolder);
-        var exportPath = $"{exportFolder}/PegLegResources-{exportingVersion}-{platform}.pck";
+        var exportPath = $"{exportFolder}/PegLegResources-{exportingVersion}.pck";
 
         string majorPath = null;
         if(majorBasis is not null)
-            majorPath = packageRoot + $"/PLR-{majorBasis}/PegLegResources-{majorBasis}-{platform}.pck";
+            majorPath = packageRoot + $"/PLR-{majorBasis}/PegLegResources-{majorBasis}.pck";
         string minorPath = null;
         if (minorBasis is not null)
-            minorPath = packageRoot + $"/PLR-{minorBasis}/PegLegResources-{minorBasis}-{platform}.pck";
+            minorPath = packageRoot + $"/PLR-{minorBasis}/PegLegResources-{minorBasis}.pck";
 
         if (majorPath is not null && !FileAccess.FileExists(majorPath))
         {
@@ -144,7 +193,7 @@ public partial class Packager : Control
             latestError.Text = $"Basis package {minorPath} does not exist\n{minorPath}";
             return;
         }
-        if (FileAccess.FileExists(exportPath) && !Input.IsKeyPressed(Key.Shift))
+        if (FileAccess.FileExists(exportPath) && !Input.IsKeyPressed(Key.Shift) && !force)
         {
             latestError.Text = "Package exists, hold Shift to force replace";
             return;
@@ -165,7 +214,8 @@ public partial class Packager : Control
         });
 
         GD.Print("Export complete");
-        OS.ShellOpen(exportFolder);
+        if (!force)
+            OS.ShellOpen(exportFolder);
 
         importer?.RefreshVersions();
     }
