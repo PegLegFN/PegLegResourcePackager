@@ -145,7 +145,7 @@ public partial class Packager : Control
 
             string packageRoot = ProjectSettings.GlobalizePath("res://Builds/Packages");
             var exportPath = $"{packageRoot}/PLR-v690.0.0/PegLegResources-v690.0.0.pck";
-            DirAccess.RenameAbsolute(exportPath, quickExportTargetFolder+"/PegLegResources.pck");
+            DirAccess.RenameAbsolute(exportPath, quickExportTargetFolder+"/PegLegResourcePacks/ExtraPatch.pck");
         }
         finally
         {
