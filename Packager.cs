@@ -144,7 +144,7 @@ public partial class Packager : Control
             await ExportForPlatform(690, 0, 0, true);
 
             string packageRoot = ProjectSettings.GlobalizePath("res://Builds/Packages");
-            var exportPath = $"{packageRoot}/PLR-v690.0.0/PegLegResources-v690.0.0.pck";
+            var exportPath = $"{packageRoot}/PegLegResources-v690.0.0.pck";
             DirAccess.RenameAbsolute(exportPath, quickExportTargetFolder+"/PegLegResourcePacks/ExtraPatch.pck");
         }
         finally
@@ -171,17 +171,17 @@ public partial class Packager : Control
         string packageRoot = ProjectSettings.GlobalizePath("res://Builds/Packages");
 
         var exportFolder = packageRoot;
-        exportFolder += $"/PLR-{exportingVersion}";
+        //exportFolder += $"/PLR-{exportingVersion}";
         if (!DirAccess.DirExistsAbsolute(exportFolder))
             DirAccess.MakeDirAbsolute(exportFolder);
         var exportPath = $"{exportFolder}/PegLegResources-{exportingVersion}.pck";
 
         string majorPath = null;
         if(majorBasis is not null)
-            majorPath = packageRoot + $"/PLR-{majorBasis}/PegLegResources-{majorBasis}.pck";
+            majorPath = packageRoot + $"/PegLegResources-{majorBasis}.pck";
         string minorPath = null;
         if (minorBasis is not null)
-            minorPath = packageRoot + $"/PLR-{minorBasis}/PegLegResources-{minorBasis}.pck";
+            minorPath = packageRoot + $"/PegLegResources-{minorBasis}.pck";
 
         if (majorPath is not null && !FileAccess.FileExists(majorPath))
         {
