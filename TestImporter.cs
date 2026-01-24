@@ -24,10 +24,10 @@ public partial class TestImporter : Control
     public void RefreshVersions()
     {
         versionSelector.Clear();
-        var packageDirectories = DirAccess.GetDirectoriesAt(GetPckPath());
+        var packageDirectories = DirAccess.GetDirectoriesAt(VersionData.BaseExportFolder);
         foreach (var packageDir in packageDirectories)
         {
-            versionSelector.AddItem(packageDir.Split("/")[^1][4..]);
+            versionSelector.AddItem(packageDir);
         }
     }
 
@@ -39,44 +39,29 @@ public partial class TestImporter : Control
         GetAsset();
     }
 
-    string GetPackageFromVersion(int major, int minor, int patch)
-    {
-        var folder = GetPckPath($"PLR-v{major}.{minor}.{patch}");
-        return folder+"/"+ DirAccess.GetFilesAt(folder)[0];
-    }
-
     public void Import()
 	{
         if (versionSelector.Selected < 0)
             return;
         var versionText = versionSelector.GetItemText(versionSelector.Selected);
-        if (!Packager.ParseVersionText(
-                versionText,
-                out int major,
-                out int minor,
-                out int patch,
-                out string error
-            ))
+        if (!VersionData.TryParse(versionText, out var version, out string error))
         {
             GD.Print("Err: " + error);
             return;
         }
 
-        var majorpck = GetPackageFromVersion(major, 0, 0);
-        GD.Print("Loading "+ majorpck);
-        ProjectSettings.LoadResourcePack(majorpck);
-        if (minor > 0)
+        if(version.MajorBasis is VersionData majorVer)
         {
-            var minorpck = GetPackageFromVersion(major, minor, 0);
-            GD.Print("Loading " + minorpck);
-            ProjectSettings.LoadResourcePack(minorpck);
+            GD.Print($"Loading {majorVer}");
+            ProjectSettings.LoadResourcePack(majorVer.PackagePath("Windows"));
         }
-        if (patch > 0)
+        if (version.MinorBasis is VersionData minorVer)
         {
-            var patchpck = GetPackageFromVersion(major, minor, patch);
-            GD.Print("Loading " + patchpck);
-            ProjectSettings.LoadResourcePack(patchpck);
+            GD.Print($"Loading {minorVer}");
+            ProjectSettings.LoadResourcePack(minorVer.PackagePath("Windows"));
         }
+        GD.Print($"Loading {version}");
+        ProjectSettings.LoadResourcePack(version.PackagePath("Windows"));
 
         viewerRegion.Visible = true;
         GetAsset();
@@ -87,18 +72,5 @@ public partial class TestImporter : Control
         bool exists = ResourceLoader.Exists("res://PegLegResources/" + testPath.Text);
         testResult.Texture = exists ? ResourceLoader.Load<Texture2D>("res://PegLegResources/" + testPath.Text, cacheMode: ResourceLoader.CacheMode.Replace) : fallback;
         testResult2.Texture = testResult.Texture;
-    }
-
-	static string GetPckPath(string pckName = "")
-    {
-        if (OS.HasFeature("editor"))
-        {
-           return "res://Builds/Packages/" + pckName;
-        }
-        else
-        {
-            //pegleg will load packages from userdata folder
-            return string.Join("/", OS.GetExecutablePath().Split('/')[..^2]) + "/Packages/" + pckName;
-        }
     }
 }
