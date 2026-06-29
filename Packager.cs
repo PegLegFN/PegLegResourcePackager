@@ -136,12 +136,16 @@ public partial class Packager : Control
                 latestError.Text = "Godot executable not provided";
                 return;
             }
+            if (!DirAccess.DirExistsAbsolute(quickExportTargetFolder))
+            {
+                latestError.Text = "Export folder not provided";
+                return;
+            }
             VersionData version = new(690, 0, 0);
-            await ExportForPlatform(new(690, 0, 0), "Windows", true);
+            await ExportForPlatform(new(690, 0, 0), "", true);
 
-            string packageRoot = ProjectSettings.GlobalizePath("res://Builds/Packages");
-            var exportPath = $"{packageRoot}/{version}/PegLegResources-{version}.pck";
-            DirAccess.RenameAbsolute(exportPath, quickExportTargetFolder+"/PegLegResourcePacks/ExtraPatch.pck");
+            var exportPath = version.PackagePath();
+            DirAccess.RenameAbsolute(exportPath, quickExportTargetFolder+"/ExtraPatch.pck");
         }
         finally
         {
@@ -220,9 +224,9 @@ public partial record struct VersionData(int major, int minor = 0, int patch = 0
 
     static readonly Dictionary<string, string> PlatformMarkers = new()
     {
-        ["Desktop"] = "",
         ["Mobile"] = "-m",
     };
+    static string GetPlatformMarker(string forPlatform) => PlatformMarkers.TryGetValue(forPlatform, out var res) ? res : null;
 
     public static string BaseExportFolder => ProjectSettings.GlobalizePath("res://Builds/Packages");
     public static bool TryParse(string input, out VersionData version) => TryParse(input, out version, out _);
@@ -283,7 +287,7 @@ public partial record struct VersionData(int major, int minor = 0, int patch = 0
     public VersionData? MinorBasis => minor > 0 && patch > 0 ? new(major, minor, 0) : null;
 
     public string ExportFolder => $"{BaseExportFolder}/{this}";
-    public string PackagePath(string platform) => $"{ExportFolder}/PegLegResources{PlatformMarkers[platform]}-{this}.pck";
+    public string PackagePath(string platform = null) => $"{ExportFolder}/PegLegResources{GetPlatformMarker(platform)}-{this}.pck";
 
     public override string ToString() => $"v{major}.{minor}.{patch}";
 }

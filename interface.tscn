@@ -102,7 +102,7 @@ latestError = NodePath("../../../Label")
 importer = NodePath("../../ImageViewer")
 loadingIcon = NodePath("../../../LoadingIcon")
 interactableArea = NodePath("../..")
-quickExportTargetFolder = "C:/Users/Tomatech/Repositories/TomatechGames/Godot Projects/PegLeg"
+quickExportTargetFolder = "C:\\Users\\Tomatech\\AppData\\Roaming\\Godot\\app_userdata\\PegLeg\\PegLegResourcePacks"
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
