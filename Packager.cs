@@ -188,7 +188,7 @@ public partial class Packager : Control
             return;
         }
 
-        var patches = $"{majorPath}{(minorPath is null ? "" : $", {minorPath}")}";
+        var patches = $"{majorPath}{(minorPath is null ? "" : $",{minorPath}")}";
         var patchNames = $"{majorBasis}{(minorBasis is null ? "" : $", {minorBasis}")}";
         if (majorPath is null)
             GD.Print("Exporting full pack...");
