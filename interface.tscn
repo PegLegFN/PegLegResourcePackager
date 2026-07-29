@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://booyulcb4o2oa"]
+[gd_scene format=3 uid="uid://booyulcb4o2oa"]
 
 [ext_resource type="Texture2D" uid="uid://b4kmvt1igcs0a" path="res://FORT_Load_PiratesCove.png" id="1_rh14k"]
 [ext_resource type="Texture2D" uid="uid://btdqlc5ogff0q" path="res://PegLegIcon256.png" id="2_kyn48"]
@@ -30,7 +30,7 @@ shader_parameter/HorizontalMask = 0.0
 shader_parameter/VerticalMask = 0.0
 shader_parameter/Frame = -1
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=1254795005]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -40,7 +40,7 @@ grow_vertical = 2
 metadata/_edit_horizontal_guides_ = [648.0, 648.0, 648.0]
 metadata/_edit_vertical_guides_ = [1152.0]
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1210792942]
 self_modulate = Color(0.6, 0.6, 0.6, 1)
 layout_mode = 1
 anchors_preset = 15
@@ -52,7 +52,7 @@ texture = ExtResource("1_rh14k")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=943141463]
 self_modulate = Color(1, 0.4, 0, 1)
 layout_mode = 1
 anchors_preset = 10
@@ -66,7 +66,7 @@ theme_override_constants/shadow_offset_y = 1
 theme_override_constants/outline_size = 1
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1262829506]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -80,16 +80,16 @@ offset_bottom = 68.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer" unique_id=432725679]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_0noqu")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer" node_paths=PackedStringArray("latestVersionLabel", "newVersionType", "versionInput", "customVersionContent", "newVersionContent", "newVersionLabel", "platformSelector", "badFormatWarning", "latestError", "importer", "loadingIcon", "interactableArea")]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer" unique_id=707505290 node_paths=PackedStringArray("latestVersionLabel", "newVersionType", "versionInput", "customVersionContent", "newVersionContent", "newVersionLabel", "platformSelector", "badFormatWarning", "latestError", "importer", "loadingIcon", "interactableArea")]
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("2_oi7g3")
-godotExePath = "C:/Users/Tomatech/AppData/Roaming/Godot/app_userdata/Godots/versions/Godot_v4_4_1-stable_mono_win64/Godot_v4.4.1-stable_mono_win64/Godot_v4.4.1-stable_mono_win64_console.exe"
+godotExePath = "C:/Users/Tomatech/AppData/Roaming/Godot/app_userdata/Godots/versions/Godot_v4_7-stable_mono_win64/Godot_v4.7-stable_mono_win64/Godot_v4.7-stable_mono_win64_console.exe"
 latestVersionLabel = NodePath("PanelContainer/HBoxContainer/Label2")
 newVersionType = NodePath("TabBar")
 versionInput = NodePath("HBoxContainer/LineEdit")
@@ -104,25 +104,25 @@ loadingIcon = NodePath("../../../LoadingIcon")
 interactableArea = NodePath("../..")
 quickExportTargetFolder = "C:\\Users\\Tomatech\\AppData\\Roaming\\Godot\\app_userdata\\PegLeg\\PegLegResourcePacks"
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1260152158]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer" unique_id=263907718]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer/HBoxContainer" unique_id=88393798]
 layout_mode = 2
 size_flags_horizontal = 4
 text = " Latest:"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="Label2" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer/HBoxContainer" unique_id=560314970]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "v1.0.0"
 
-[node name="TabBar" type="TabBar" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="TabBar" type="TabBar" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1780444308]
 layout_mode = 2
 current_tab = 2
 clip_tabs = false
@@ -133,24 +133,24 @@ tab_1/title = "Minor"
 tab_2/title = "Patch"
 tab_3/title = "Custom"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=593113981]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=604340153]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "v1.0.0"
 placeholder_text = "v0.0.0-a01"
 alignment = 1
 
-[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=183256702]
 visible = false
 layout_mode = 2
 mouse_filter = 0
 text = " !!! "
 
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/Label"]
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/Label" unique_id=2056688430]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -161,24 +161,24 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 0, 0, 1)
 
-[node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1407970336]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer2" unique_id=1233324803]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer2/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer2/HBoxContainer" unique_id=23748417]
 layout_mode = 2
 size_flags_horizontal = 4
 text = " Next:"
 
-[node name="Label2" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer2/HBoxContainer"]
+[node name="Label2" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer2/HBoxContainer" unique_id=793782924]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "v1.0.0"
 
-[node name="OptionButton2" type="OptionButton" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="OptionButton2" type="OptionButton" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1760375751]
 layout_mode = 2
 alignment = 1
 selected = 0
@@ -192,18 +192,18 @@ popup/item_2/id = 0
 popup/item_3/text = "Mobile"
 popup/item_3/id = 1
 
-[node name="Button" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=300395792]
 layout_mode = 2
 text = "Export Package"
 
-[node name="HSeparator" type="HSeparator" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1582297788]
 layout_mode = 2
 
-[node name="Button3" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Button3" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=686462064]
 layout_mode = 2
 text = "Quick Export"
 
-[node name="OptionButton" type="OptionButton" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="OptionButton" type="OptionButton" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1695153225]
 visible = false
 layout_mode = 2
 alignment = 1
@@ -214,12 +214,12 @@ popup/item_0/id = 1
 popup/item_1/text = "v1.0.0"
 popup/item_1/id = 0
 
-[node name="Button2" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Button2" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1209344760]
 visible = false
 layout_mode = 2
 text = "Test Import"
 
-[node name="ImageViewer" type="MarginContainer" parent="HBoxContainer" node_paths=PackedStringArray("versionSelector", "testPath", "testResult", "testResult2", "viewerRegion")]
+[node name="ImageViewer" type="MarginContainer" parent="HBoxContainer" unique_id=1541126391 node_paths=PackedStringArray("versionSelector", "testPath", "testResult", "testResult2", "viewerRegion")]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 2
@@ -234,29 +234,29 @@ testResult2 = NodePath("../../FSPreview/TextureRect")
 fallback = ExtResource("2_kyn48")
 viewerRegion = NodePath(".")
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/ImageViewer"]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/ImageViewer" unique_id=698701409]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_0noqu")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ImageViewer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ImageViewer/PanelContainer" unique_id=182867647]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/ImageViewer/PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/ImageViewer/PanelContainer/VBoxContainer" unique_id=1654539190]
 layout_mode = 2
 
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer/ImageViewer/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/ImageViewer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1198320909]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
 text = "GameAssets/ExportedImages/Act_Encampment.png"
 placeholder_text = "Search Image"
 
-[node name="Button" type="Button" parent="HBoxContainer/ImageViewer/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Button" type="Button" parent="HBoxContainer/ImageViewer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1291439704]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 text = "O"
 
-[node name="FileDialog" type="FileDialog" parent="HBoxContainer/ImageViewer/PanelContainer/VBoxContainer/HBoxContainer/Button"]
+[node name="FileDialog" type="FileDialog" parent="HBoxContainer/ImageViewer/PanelContainer/VBoxContainer/HBoxContainer/Button" unique_id=1579682017]
 title = "Open a File"
 transient_to_focused = true
 ok_button_text = "Open"
@@ -265,21 +265,21 @@ root_subfolder = "res://PegLegResources/"
 filters = PackedStringArray("*.png")
 use_native_dialog = true
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/ImageViewer/PanelContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/ImageViewer/PanelContainer/VBoxContainer" unique_id=708585861]
 layout_mode = 2
 mouse_filter = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/ImageViewer/PanelContainer/VBoxContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/ImageViewer/PanelContainer/VBoxContainer/PanelContainer" unique_id=1707669293]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ImageViewer/PanelContainer/VBoxContainer/PanelContainer/MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ImageViewer/PanelContainer/VBoxContainer/PanelContainer/MarginContainer" unique_id=159606502]
 custom_minimum_size = Vector2(400, 225)
 layout_mode = 2
 texture = ExtResource("2_kyn48")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="TextureButton" type="TextureButton" parent="HBoxContainer/ImageViewer/PanelContainer/VBoxContainer/PanelContainer/MarginContainer/TextureRect"]
+[node name="TextureButton" type="TextureButton" parent="HBoxContainer/ImageViewer/PanelContainer/VBoxContainer/PanelContainer/MarginContainer/TextureRect" unique_id=1827956924]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -287,17 +287,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TabContainer" type="TabContainer" parent="HBoxContainer"]
+[node name="TabContainer" type="TabContainer" parent="HBoxContainer" unique_id=1675244806]
 visible = false
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 current_tab = 0
 
-[node name="JsonViewer" type="MarginContainer" parent="HBoxContainer/TabContainer"]
+[node name="JsonViewer" type="MarginContainer" parent="HBoxContainer/TabContainer" unique_id=2031855540]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="LoadingIcon" type="TextureRect" parent="."]
+[node name="LoadingIcon" type="TextureRect" parent="." unique_id=470988374]
 visible = false
 material = SubResource("ShaderMaterial_jllm8")
 custom_minimum_size = Vector2(256, 256)
@@ -316,7 +316,7 @@ grow_vertical = 2
 texture = ExtResource("6_pxv5b")
 expand_mode = 1
 
-[node name="FSPreview" type="TextureButton" parent="."]
+[node name="FSPreview" type="TextureButton" parent="." unique_id=98314787]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -325,7 +325,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect" type="TextureRect" parent="FSPreview"]
+[node name="TextureRect" type="TextureRect" parent="FSPreview" unique_id=1391251563]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
