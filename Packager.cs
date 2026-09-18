@@ -3,7 +3,6 @@ using Godot.Collections;
 using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using static Godot.HttpRequest;
 
 public partial class Packager : Control
 {
@@ -142,10 +141,11 @@ public partial class Packager : Control
                 return;
             }
             VersionData version = new(690, 0, 0);
-            await ExportForPlatform(new(690, 0, 0), "", true);
+            await ExportForPlatform(new(690, 0, 0), "Desktop", true);
 
             var exportPath = version.PackagePath();
             DirAccess.RenameAbsolute(exportPath, quickExportTargetFolder+"/ExtraPatch.pck");
+            GD.Print($"Moved to \"{quickExportTargetFolder}/ExtraPatch.pck\"");
         }
         finally
         {
